@@ -8,5 +8,6 @@ public class Platform_White : MonoBehaviour {
     {
         GetComponent<EdgeCollider2D>().enabled = false;
         GetComponent<PlatformEffector2D>().enabled = false;
+         GetComponent<BoxCollider2D>().enabled = false;
     }
 }
