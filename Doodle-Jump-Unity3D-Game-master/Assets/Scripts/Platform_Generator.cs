@@ -18,7 +18,7 @@ public class Platform_Generator : MonoBehaviour {
     public float Current_Y = 0;
     float Offset;
     Vector3 Top_Left;
-
+    
 	// Use this for initialization
 	void Start () 
     {
@@ -27,21 +27,39 @@ public class Platform_Generator : MonoBehaviour {
         Offset = 1.2f;
 
         // Initialize platforms
-        Generate_Platform(15);
+        Generate_Platform(50);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-
+    public static float RandomGaussian(float minValue = -10f, float maxValue = 10f)
+    {
+        float u, v, S;
+        do
+        {
+            u = 2.0f * UnityEngine.Random.value - 1.0f;
+            v = 2.0f * UnityEngine.Random.value - 1.0f;
+            S = u * u + v * v;
+        }
+        while (S >= 1.0f);
+    
+        // Standard Normal Distribution
+        float std = u * Mathf.Sqrt(-2.0f * Mathf.Log(S) / S);
+    
+        // Normal Distribution centered between the min and max value
+        // and clamped following the "three-sigma rule"
+        float mean = (minValue + maxValue) / 2.0f;
+        float sigma = (maxValue - mean) / 3.0f;
+        return Mathf.Clamp(std * sigma + mean, minValue, maxValue);
+    }
     public void Generate_Platform(int Num)
     {
         for (int i = 0; i < Num; i++)
         {
-            // Calculate platform x, y
-            float Dist_X = Random.Range(Top_Left.x + Offset, -Top_Left.x - Offset);
-            float Dist_Y = Random.Range(2f, 4f);
+            float Dist_X = RandomGaussian();
+            float Dist_Y = Random.Range(2f, 3f);
 
            // int Rand_BrownPlatform = Random.Range(1, 8);
 
